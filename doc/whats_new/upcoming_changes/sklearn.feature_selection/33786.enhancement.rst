@@ -1,5 +1,5 @@
 - :class:`feature_selection.SelectFromModel` and :class:`feature_selection.RFE`
-  now support estimators whose ``coef_`` attribute is a sparse matrix or array
+  now support estimators whose feature importance is a sparse matrix or array
   (e.g., as produced by linear models' ``sparsify()`` method). Previously,
   the internal ``_get_feature_importances()`` function only handled dense
   NumPy arrays, causing errors when a sparse ``coef_`` was passed via
