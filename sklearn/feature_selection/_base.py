@@ -255,18 +255,13 @@ def _get_feature_importances(estimator, getter, transform_func=None, norm_order=
         if importances.ndim == 1:
             importances = np.abs(importances)
         else:
-            if issparse(importances):
-                importances = linalg.norm(importances, axis=0, ord=norm_order)
-            else:
-                importances = np.linalg.norm(importances, axis=0, ord=norm_order)
+            norm = linalg.norm if issparse(importances) else np.linalg.norm
+            importances = norm(importances, axis=0, ord=norm_order)
     elif transform_func == "square":
         if importances.ndim == 1:
             importances = safe_sqr(importances)
         else:
-            if issparse(importances):
-                importances = safe_sqr(importances).sum(axis=0)
-            else:
-                importances = safe_sqr(importances).sum(axis=0)
+            importances = safe_sqr(importances).sum(axis=0)
     else:
         raise ValueError(
             "Valid values for `transform_func` are "
