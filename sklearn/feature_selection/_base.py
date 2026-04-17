@@ -254,14 +254,15 @@ def _get_feature_importances(estimator, getter, transform_func=None, norm_order=
     elif transform_func == "norm":
         if importances.ndim == 1:
             importances = np.abs(importances)
+        elif issparse(importances):
+            importances = linalg.norm(importances, axis=0, ord=norm_order)
         else:
-            if issparse(importances):
-                importances = linalg.norm(importances, axis=0, ord=norm_order)
-            else:
-                importances = np.linalg.norm(importances, axis=0, ord=norm_order)
+            importances = np.linalg.norm(importances, axis=0, ord=norm_order)
     elif transform_func == "square":
         if importances.ndim == 1:
             importances = safe_sqr(importances)
+        elif issparse(importances):
+            importances = linalg.norm(importances, axis=0, ord=norm_order)
         else:
             importances = safe_sqr(importances).sum(axis=0)
     else:
